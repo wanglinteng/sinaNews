@@ -10,6 +10,9 @@ def init_detail_templ():
     image = cv2.imread(os.path.join(realpath, 'detail.png'))
     sinanews_templ = image[555:590, 470:770]
     cv2.imwrite(os.path.join(realpath, 'detail_sinanews_templ.png'), sinanews_templ)
+    sinanews_templ = image[555:590, 535:765]
+    cv2.imwrite(os.path.join(realpath, 'detail_sinanews_templ_v2.png'), sinanews_templ)
+
 
     # delete_templ
     delete_templ = image[558:585, 788:892]
@@ -29,7 +32,7 @@ def init_list_templ():
     cv2.imwrite(os.path.join(realpath, 'list_my_posts_templ.png'), my_posts_templ)
 
     # item_templ
-    item_templ = image[377:377 + 10, 243 - 20:243 + 804 + 20]
+    item_templ = image[365:365 + 20, 243 - 20:243 + 804 + 20]
     cv2.imwrite(os.path.join(realpath, 'list_item_templ.png'), item_templ)
 
 
