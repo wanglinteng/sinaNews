@@ -10,6 +10,9 @@ def init_detail_templ():
     image = cv2.imread(os.path.join(realpath, 'detail.png'))
     sinanews_templ = image[555:590, 470:770]
     cv2.imwrite(os.path.join(realpath, 'detail_sinanews_templ.png'), sinanews_templ)
+    sinanews_templ = image[555:590, 535:765]
+    cv2.imwrite(os.path.join(realpath, 'detail_sinanews_templ_v2.png'), sinanews_templ)
+
 
     # delete_templ
     delete_templ = image[558:585, 788:892]

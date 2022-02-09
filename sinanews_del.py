@@ -3,7 +3,6 @@ import time
 
 import cv2
 
-
 # Android Device Resolution 2340 * 1080
 
 ADB_PATH = '/usr/local/bin/adb'
@@ -16,12 +15,12 @@ def match_templ(image, templ_name, alpha):
 
     result = cv2.matchTemplate(image=image, templ=templ, method=cv2.TM_SQDIFF)
     min_val, max_val, min_loc, max_loc = cv2.minMaxLoc(result)
-    print('match_templ', templ_name, min_val, max_val, min_loc, max_loc)
+    # print('match_templ', templ_name, min_val, max_val, min_loc, max_loc)
 
     if min_val <= alpha:
         pos_y, pos_x = min_loc
         len_x, len_y = templ.shape
-        return pos_x + int(len_x / 2), pos_y + int(len_y / 2)
+        return pos_x + int(len_x / 2) + 2, pos_y + int(len_y / 2)
     else:
         return -1, -1
 
@@ -31,7 +30,7 @@ def templ_in_image(image, templ_name, alpha):
 
     result = cv2.matchTemplate(image=image, templ=templ, method=cv2.TM_SQDIFF)
     min_val, max_val, min_loc, max_loc = cv2.minMaxLoc(result)
-    print('templ_in_image', templ_name, min_val, max_val, min_loc, max_loc)
+    # print('templ_in_image', templ_name, min_val, max_val, min_loc, max_loc)
 
     if min_val <= alpha:
         return True
@@ -50,7 +49,7 @@ def del_tap_loc():
     if templ_in_image(image=image, templ_name='list_my_posts_templ.png', alpha=500):
         return False, 0, 0
 
-    x, y = match_templ(image=image, templ_name='detail_sinanews_templ.png', alpha=500)
+    x, y = match_templ(image=image, templ_name='detail_sinanews_templ_v2.png', alpha=500)
     if x < 0:
         return False, 53, 140  # return button
 
@@ -84,8 +83,7 @@ def tap(x, y):
 
 
 def swipe():
-    os.system('{} shell input swipe {} {} {} {} {}'.format(ADB_PATH, 540, 1170, 540, 1170 - 150, 500))
-    time.sleep(0.5)
+    os.system('{} shell input swipe {} {} {} {} {}'.format(ADB_PATH, 540, 1170, 540, 1170 - 65, 80))
 
 
 def run():
@@ -98,12 +96,13 @@ def run():
         cp_detail_pic()
         status, delete_x, delete_y = del_tap_loc()
         print('delete_tap_loc {} {} {} '.format(status, delete_x, delete_y))
-        tap(delete_x, delete_y)
+        if delete_x > 0:
+            tap(delete_x, delete_y)
 
         if status:  # delete True
             ok_x, ok_y = ok_tap_loc()
             tap(ok_x, ok_y)
-            print('ok_tap_loc {} {}'.format(ok_x, ok_y))
+            # print('ok_tap_loc {} {}'.format(ok_x, ok_y))
         else:
             swipe()
 
