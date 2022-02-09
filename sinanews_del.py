@@ -15,7 +15,7 @@ def match_templ(image, templ_name, alpha):
 
     result = cv2.matchTemplate(image=image, templ=templ, method=cv2.TM_SQDIFF)
     min_val, max_val, min_loc, max_loc = cv2.minMaxLoc(result)
-    # print('match_templ', templ_name, min_val, max_val, min_loc, max_loc)
+    print('match_templ', templ_name, min_val, max_val, min_loc, max_loc)
 
     if min_val <= alpha:
         pos_y, pos_x = min_loc
@@ -40,7 +40,7 @@ def templ_in_image(image, templ_name, alpha):
 
 def item_tap_loc():
     image = cv2.imread(os.path.join(TMP_PATH, 'tmp_sinanews_share_list.png'), cv2.IMREAD_GRAYSCALE)
-    return match_templ(image=image, templ_name='list_item_templ.png', alpha=500)
+    return match_templ(image=image, templ_name='list_item_templ.png', alpha=20)
 
 
 def del_tap_loc():
